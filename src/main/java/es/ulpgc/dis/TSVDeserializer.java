@@ -16,6 +16,7 @@ public class TSVDeserializer implements Deserializer{
     }
 
     private List<Title.Genres> toGenres(String field) {
+        if (field.equals("\\N")) return null;
         List<Title.Genres> genresResult = new ArrayList<>();
         String[] fields = field.split(",");
         for (String s : fields) {
