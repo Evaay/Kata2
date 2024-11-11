@@ -19,14 +19,7 @@ public class TSVTitleReader implements  TitleReader{
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             readHeader(reader);
-            List<Title> titles = new ArrayList<>();
-            while (true) {
-                String line = reader.readLine();
-                if (line == null) break;
-                Title title = new TSVDeserializer().deserialize(line);
-                titles.add(title);
-            }
-            return titles;
+            return readAll(reader);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -34,5 +27,16 @@ public class TSVTitleReader implements  TitleReader{
 
     private static void readHeader(BufferedReader reader) throws IOException {
         reader.readLine();
+    }
+
+    private List<Title> readAll(BufferedReader reader) throws IOException {
+        ArrayList<Title> titles = new ArrayList<>();
+        TSVDeserializer deserializer = new TSVDeserializer();
+        while (true) {
+            String line = reader.readLine();
+            if (line == null) break;
+            titles.add(deserializer.deserialize(line));
+        }
+        return titles;
     }
 }
