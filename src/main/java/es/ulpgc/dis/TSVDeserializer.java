@@ -20,9 +20,13 @@ public class TSVDeserializer implements Deserializer{
         List<Title.Genres> genresResult = new ArrayList<>();
         String[] fields = field.split(",");
         for (String s : fields) {
-            genresResult.add(Title.Genres.valueOf((s)));
+            genresResult.add(Title.Genres.valueOf(normalize(s)));
         }
         return genresResult;
+    }
+
+    private String normalize(String s) {
+        return s.replace("-", "");
     }
 
     private boolean toBoolean(String field) {
